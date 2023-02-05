@@ -1,5 +1,7 @@
 # pypulsar
 
+[![Testing](https://github.com/keenborder786/PyPulsar/actions/workflows/ci.yml/badge.svg)](https://github.com/keenborder786/PyPulsar/actions/workflows/ci.yml)
+
 A Python Package to interact with Pulsar Cluster. This implments the features which are missing in the official python client for pulsar.
 
 ## Installation
