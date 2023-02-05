@@ -24,6 +24,7 @@ jobs:
       
       - name: Starting the Pulsar Dev Cluster
         run: docker-compose up -d
-      
+      - name: Check running containers
+        run: docker ps
       - name: Test with pytest
         run: poetry run pytest tests/
