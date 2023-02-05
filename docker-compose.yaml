@@ -10,4 +10,5 @@ services:
       - 6650:6650
     entrypoint: "./bin/pulsar standalone"
 volumes:
-  html-data:
+  pulsarconf: {}
+  pulsardata: {}
