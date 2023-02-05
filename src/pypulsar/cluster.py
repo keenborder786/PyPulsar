@@ -38,6 +38,11 @@ class Cluster:
 
         Gets raw information for all the bookies in the cluster
 
+        Returns
+        ----------------------------
+
+        DataFrame: All of the bookie information in form of dataframe.
+
         """
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/bookies/all"
@@ -56,6 +61,11 @@ class Cluster:
     def get_rack_placement_bookies(self) -> Dict:
         """
         Gets the rack placement information for all the bookies in the cluster
+
+        Returns:
+        -------------------------------------
+
+        Dict: Rack placement info for all bookie in form of dictionary
 
         """
         response = requests.get(

@@ -55,6 +55,11 @@ class Bookie(Cluster):
         """
         Gets the rack placement information for a specific bookie in the cluster
 
+        Returns:
+        -------------------------------------
+
+        Dict: Rack placement information for specific bookie in form of dictionary
+
         """
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/bookies/racks-info/{self.bookie_id}"
