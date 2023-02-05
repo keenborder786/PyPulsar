@@ -25,6 +25,7 @@ jobs:
       - name: Starting Pulsar Dev Cluster
         uses: docker://apachepulsar/pulsar:2.10.3
         with:
+          options: -it
           mount: |
             pulsardata:/pulsar/data
             pulsarconf:/pulsar/conf
@@ -32,6 +33,5 @@ jobs:
             6650:6650
             8080:8080
           command: "bin/pulsar standalone"
-
       - name: Test with pytest
         run: poetry run pytest tests/
