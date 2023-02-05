@@ -2,6 +2,7 @@ version: '3'
 services:
   pulsar:
     image: apachepulsar/pulsar:2.10.3
+    container_name: pulsar
     volumes:
       - pulsardata:/pulsar/data
       - pulsarconf:/pulsar/conf
