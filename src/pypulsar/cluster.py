@@ -15,6 +15,17 @@ class Cluster:
     """
 
     def __init__(self, secured: bool, webservice_url: str, webservice_port: str) -> None:
+        """
+        Parameters:
+        ------------------------------
+
+        secured(bool): http or https requests
+
+        webservice_url(str): The web-service url for brokers to execute the api requests
+
+        webservice_port(str): The web-service port for broker to execute the api requests
+
+        """
         if not secured:
             self.request_type = "http"
         else:
