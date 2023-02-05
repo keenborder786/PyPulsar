@@ -6,6 +6,20 @@ jobs:
   ci:
     # Set up operating system
     runs-on: ubuntu-latest
+    services:
+      pulsar:
+        image: apachepulsar/pulsar:2.10.3
+        volumes:
+          - pulsardata:/pulsar/data
+          - pulsarconf:/pulsar/conf
+        ports:
+          - 8080:8080
+          - 6650:6650
+        options:
+          -it
+          --entrypoint "./bin/pulsar standalone"
+          
+          
     # Define job steps
     steps:
       - name: Set up Python
@@ -22,16 +36,5 @@ jobs:
       - name: Install package
         run: poetry install
 
-      - name: Starting Pulsar Dev Cluster
-        uses: docker://apachepulsar/pulsar:2.10.3
-        with:
-          options: -it
-          mount: |
-            pulsardata:/pulsar/data
-            pulsarconf:/pulsar/conf
-          ports: |
-            6650:6650
-            8080:8080
-          command: "bin/pulsar standalone"
       - name: Test with pytest
         run: poetry run pytest tests/
