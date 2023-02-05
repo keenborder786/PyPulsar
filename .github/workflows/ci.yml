@@ -31,8 +31,7 @@ jobs:
           ports: |
             6650:6650
             8080:8080
-          entrypoint:
-            bin/pulsar standalone
+          command: "bin/pulsar standalone"
 
       - name: Test with pytest
         run: poetry run pytest tests/
