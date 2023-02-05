@@ -14,6 +14,20 @@ class Bookie(Cluster):
     """
 
     def __init__(self, secured: bool, webservice_url: str, webservice_port: str, bookie_id: str):
+        """
+        Parameters:
+        ------------------------------
+
+        secured(bool): http or https requests
+
+        webservice_url(str): The web-service url for brokers to execute the api requests
+
+        webservice_port(str): The web-service port for broker to execute the api requests
+
+        bookie_id(str): The unique id to identify the bookie on pulsar cluster
+
+
+        """
         super().__init__(secured, webservice_url, webservice_port)
         self.bookie_id = bookie_id
 
