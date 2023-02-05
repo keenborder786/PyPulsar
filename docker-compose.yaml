@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pulsar:
+    image: apachepulsar/pulsar:2.10.3
+    volumes:
+      - pulsardata:/pulsar/data
+      - pulsarconf:/pulsar/conf
+    ports:
+      - 8080:8080
+      - 6650:6650
+    entrypoint: "./bin/pulsar standalone"
+volumes:
+  html-data:
