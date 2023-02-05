@@ -22,3 +22,7 @@ jobs:
 
       - name: Install package
         run: poetry install
+      ### Need to build the pulsar docker image and run a dev pulsar cluster so that tests can run
+      
+      - name: Test with pytest
+        run: poetry run pytest tests/
