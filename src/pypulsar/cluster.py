@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Dict, Union
 
 import pandas as pd
 import requests
@@ -79,4 +79,71 @@ class Cluster:
         else:
             print(
                 f"Request could not happen due to the following to error {response.status_code}")
+        return {}
+
+    def get_broker_stats_allocator(self, allocator: str) -> Dict:
+        """
+
+        Parameters:
+        --------------------------------------
+
+        allocator(str): Available allocators are 'default' and 'ml-cache'
+
+
+        Get the stats for the Netty allocator. Available allocators are 'default' and 'ml-cache'
+
+        Returns:
+        --------------------------------------
+        Dict: Stats for the Netty allocator in form of dictionary
+
+        """
+        response = requests.get(
+            f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/allocator-stats/{allocator}"
+        )
+        if response.status_code == 200:
+            final_response = json.loads(response.content)
+            return final_response
+        elif response.status_code == 403:
+            print("Don't have admin permission")
+        else:
+            print(
+                f"Request could not happen due to the following to error {response.status_code}")
+
+        return {}
+
+    def get_pending_bookie_client_op_stats(self) -> Union[DataFrame, Dict]:
+        """
+
+        Get pending bookie client op stats by namespace
+
+        Returns:
+        --------------------------------------
+        Dict: Pending bookie client op stats by namespace in form dataframe
+
+        """
+        response = requests.get(
+            f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/bookieops"
+        )
+        if response.status_code == 200:
+            final_response = json.loads(response.content)
+            keys = list(final_response.keys())
+            final_dataframe_data = []
+            for key in keys:
+                topic_function_data = final_response[key]
+                topics_functions = list(topic_function_data.keys())
+                for topic_func in topics_functions:
+                    instance = {}
+                    instance["Type"] = topic_func
+                    metric_data = topic_function_data[topic_func]
+                    for key, value in metric_data.items():
+                        instance[key] = value
+                    final_dataframe_data.append(instance)
+            df_final_response = pd.DataFrame(final_dataframe_data)
+            return df_final_response
+        elif response.status_code == 403:
+            print("Don't have admin permission")
+        else:
+            print(
+                f"Request could not happen due to the following to error {response.status_code}")
+
         return {}
