@@ -6,6 +6,7 @@ jobs:
   ci:
     # Set up operating system
     runs-on: ubuntu-latest
+    # Setting up dev pulsar cluster to tests on
     services:
       pulsar:
         image: keenborder/pulsar_dev:0.0.1
