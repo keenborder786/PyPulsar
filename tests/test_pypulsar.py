@@ -8,6 +8,24 @@ def test_cluster():
     assert isinstance(pulsar_cluster.all_bookie_info(), DataFrame) == True
     assert isinstance(
         pulsar_cluster.get_rack_placement_bookies(), dict) == True
+    assert isinstance(pulsar_cluster.get_broker_stats_allocator(
+        "default"), dict) == True
+    assert (
+        isinstance(
+            pulsar_cluster.get_pending_bookie_client_op_stats(), DataFrame) == True
+        and pulsar_cluster.get_pending_bookie_client_op_stats().columns.tolist()
+        == [
+            "Type",
+            "dataLedgerOpenOp",
+            "dataLedgerCloseOp",
+            "dataLedgerCreateOp",
+            "dataLedgerDeleteOp",
+            "cursorLedgerOpenOp",
+            "cursorLedgerCloseOp",
+            "cursorLedgerCreateOp",
+            "cursorLedgerDeleteOp",
+        ]
+    ) or isinstance(pulsar_cluster.get_pending_bookie_client_op_stats(), dict) == True
 
 
 def test_bookies():
@@ -24,22 +42,3 @@ def test_bookies():
         )
         == True
     )
-
-    assert isinstance(pulsar_bookie.get_broker_stats_allocator(
-        "default"), dict) == True
-    assert (
-        isinstance(pulsar_bookie.get_pending_bookie_client_op_stats(),
-                   DataFrame) == True
-        and pulsar_bookie.get_pending_bookie_client_op_stats().columns.tolist()
-        == [
-            "Type",
-            "dataLedgerOpenOp",
-            "dataLedgerCloseOp",
-            "dataLedgerCreateOp",
-            "dataLedgerDeleteOp",
-            "cursorLedgerOpenOp",
-            "cursorLedgerCloseOp",
-            "cursorLedgerCreateOp",
-            "cursorLedgerDeleteOp",
-        ]
-    ) or isinstance(pulsar_bookie.get_pending_bookie_client_op_stats(), dict) == True
