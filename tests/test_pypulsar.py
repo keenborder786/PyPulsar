@@ -24,3 +24,22 @@ def test_bookies():
         )
         == True
     )
+
+    assert isinstance(pulsar_bookie.get_broker_stats_allocator(
+        "default"), dict) == True
+    assert (
+        isinstance(pulsar_bookie.get_pending_bookie_client_op_stats(),
+                   DataFrame) == True
+        and pulsar_bookie.get_pending_bookie_client_op_stats().columns.tolist()
+        == [
+            "Type",
+            "dataLedgerOpenOp",
+            "dataLedgerCloseOp",
+            "dataLedgerCreateOp",
+            "dataLedgerDeleteOp",
+            "cursorLedgerOpenOp",
+            "cursorLedgerCloseOp",
+            "cursorLedgerCreateOp",
+            "cursorLedgerDeleteOp",
+        ]
+    ) or isinstance(pulsar_bookie.get_pending_bookie_client_op_stats(), dict) == True
