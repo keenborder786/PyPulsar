@@ -147,3 +147,36 @@ class Cluster:
                 f"Request could not happen due to the following to error {response.status_code}")
 
         return {}
+
+    def get_broker_availability_report(self, tenant: str, namespace: str) -> Dict:
+        """
+
+        This API gives the current broker availability in percent, each resource percentage usage is calculated and
+        thensum of all of the resource usage percent is called broker-resource-availability
+
+        Parameters:
+        --------------------
+        tenant(str): The tenant for which you want availability report
+
+        namespace(str): The namespace for which want availability report
+
+        Returns:
+        --------------------
+        dict: The broker availability information in form of dictionary
+
+        """
+
+        response = requests.get(
+            f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/broker-resource-availability/{tenant}/{namespace}"
+        )
+
+        if response.status_code == 200:
+            final_response = json.loads(response.content)
+            return final_response
+        elif response.status_code == 403:
+            print("Don't have admin permission")
+        else:
+            print(
+                f"Request could not happen due to the following to error {response.status_code}")
+
+        return {}
