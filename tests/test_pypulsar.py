@@ -26,6 +26,10 @@ def test_cluster():
             "cursorLedgerDeleteOp",
         ]
     ) or isinstance(pulsar_cluster.get_pending_bookie_client_op_stats(), dict) == True
+    assert (
+        isinstance(pulsar_cluster.get_broker_availability_report(
+            "public", "default"), dict) == True
+    )
 
 
 def test_bookies():
