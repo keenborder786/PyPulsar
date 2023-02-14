@@ -115,3 +115,4 @@ class Broker(Cluster):
         else:
             print(
                 f"Request could not happen due to the following to error {response.status_code}")
+        return {}
