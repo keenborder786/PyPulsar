@@ -1,9 +1,9 @@
-import json
 from typing import Dict
 
 import requests
 
 from pypulsar.cluster import Cluster
+from pypulsar.util import get_status_code
 
 
 class Broker(Cluster):
@@ -30,6 +30,7 @@ class Broker(Cluster):
         """
         super().__init__(secured, webservice_url, webservice_port)
 
+    @get_status_code
     def get_broker_stats_allocator(self, allocator: str) -> Dict:
         """
 
@@ -49,17 +50,9 @@ class Broker(Cluster):
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/allocator-stats/{allocator}"
         )
-        if response.status_code == 200:
-            final_response = json.loads(response.content)
-            return final_response
-        elif response.status_code == 403:
-            print("Don't have admin permission")
-        else:
-            print(
-                f"Request could not happen due to the following to error {response.status_code}")
+        return response
 
-        return {}
-
+    @get_status_code
     def get_broker_availability_report(self, tenant: str, namespace: str) -> Dict:
         """
 
@@ -81,18 +74,9 @@ class Broker(Cluster):
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/broker-resource-availability/{tenant}/{namespace}"
         )
+        return response
 
-        if response.status_code == 200:
-            final_response = json.loads(response.content)
-            return final_response
-        elif response.status_code == 403:
-            print("Don't have admin permission")
-        else:
-            print(
-                f"Request could not happen due to the following to error {response.status_code}")
-
-        return {}
-
+    @get_status_code
     def get_broker_load(self) -> Dict:
         """
 
@@ -106,13 +90,4 @@ class Broker(Cluster):
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/broker-stats/load-report"
         )
-
-        if response.status_code == 200:
-            final_response = json.loads(response.content)
-            return final_response
-        elif response.status_code == 403:
-            print("Don't have admin permission")
-        else:
-            print(
-                f"Request could not happen due to the following to error {response.status_code}")
-        return {}
+        return response
