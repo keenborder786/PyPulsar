@@ -25,6 +25,8 @@ def test_cluster():
         ]
     ) or isinstance(pulsar_cluster.get_pending_bookie_client_op_stats(), dict) == True
 
+    assert isinstance(pulsar_cluster.get_all_brokers(), list) == True
+
 
 def test_bookies():
     pulsar_bookie = Bookie(False, "localhost", "8080", "127.0.0.1:3181")
