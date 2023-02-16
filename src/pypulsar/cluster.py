@@ -1,9 +1,12 @@
+import ast
 import json
-from typing import Dict, Union
+from typing import Dict, List, Union
 
 import pandas as pd
 import requests
 from pandas import DataFrame
+
+from pypulsar.util import get_status_code
 
 
 class Cluster:
@@ -58,6 +61,7 @@ class Cluster:
                 f"Request could not happen due to the following to error {response.status_code}")
         return {}
 
+    @get_status_code
     def get_rack_placement_bookies(self) -> Dict:
         """
         Gets the rack placement information for all the bookies in the cluster
@@ -71,15 +75,7 @@ class Cluster:
         response = requests.get(
             f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/bookies/racks-info"
         )
-        if response.status_code == 200:
-            final_response = json.loads(response.content)
-            return final_response
-        elif response.status_code == 403:
-            print("Don't have admin permission")
-        else:
-            print(
-                f"Request could not happen due to the following to error {response.status_code}")
-        return {}
+        return response
 
     def get_pending_bookie_client_op_stats(self) -> Union[DataFrame, Dict]:
         """
@@ -117,3 +113,17 @@ class Cluster:
                 f"Request could not happen due to the following to error {response.status_code}")
 
         return {}
+
+    def get_all_brokers(self) -> List[str]:
+        """
+        Get the list of active brokers (web service addresses) in the local cluster.
+
+        """
+        response = requests.get(
+            # TO-DO: Look into why is the original URL not working.
+            f"{self.request_type}://{self.webservice_url}:{self.webservice_port}/admin/v2/brokers/configuration "
+        )
+        if response.status_code == 200:
+            return ast.literal_eval(response.content.decode("utf-8"))
+        else:
+            return []
